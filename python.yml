@@ -1,1 +1,7 @@
 
+- name: Setup
+  hosts: all
+  become: yes
+  gather_facts: false # You must disable the gather of facts for this role to work as intended
+  roles:
+    - { role: python-ubuntu }
