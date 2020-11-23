@@ -1,0 +1,12 @@
+---
+- name: Install Python 3.x
+  raw: dpkg-query --showformat='${Status}' -W python3 | grep -E "(hold|install) ok installed" || (sudo apt-get update && sudo apt-get install -qq -y python3)
+  register: python_check
+  changed_when: not python_check.stdout | regex_search('ok installed')
+  when: python_version == 3
+
+- name: Install Python 2.x
+  raw: dpkg-query --showformat='${Status}' -W python | grep -E "(hold|install) ok installed" || (sudo apt-get update && sudo apt-get install -qq -y python)
+  register: python_check
+  changed_when: not python_check.stdout | regex_search('ok installed')
+  when: python_version == 2
